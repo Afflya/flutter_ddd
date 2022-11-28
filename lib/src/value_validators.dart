@@ -95,8 +95,7 @@ Either<ValueFailure<String>, String> validatePersonName(String input) {
 
 Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   // Maybe not the most robust way of email validation but it's good enough
-  const emailRegex =
-      r"""^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""";
+  const emailRegex = r"""^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""";
   if (RegExp(emailRegex).hasMatch(input)) {
     return right(input);
   } else {
@@ -105,7 +104,7 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
 }
 
 Either<ValueFailure<String>, String> validatePhoneNumber(String input) {
-  const regex = r"""^\+?[0-9]+$""";
+  const regex = r"^(\+7[\- ]?|7[\- ]?|8[\- ]?)?(9[\d]{2}[\- ]?[\d]{3}([\- ]?[\d]{2}){2})$";
   if (RegExp(regex).hasMatch(input)) {
     return right(input);
   } else {

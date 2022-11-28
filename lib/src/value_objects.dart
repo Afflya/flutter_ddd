@@ -35,8 +35,8 @@ abstract class ValueObject<T> with IFailable {
   @override
   Either<ValueFailure<dynamic>, Unit> get failureOrUnit {
     return value.fold(
-          (l) => left(l),
-          (r) => right(unit),
+      (l) => left(l),
+      (r) => right(unit),
     );
   }
 
@@ -53,11 +53,21 @@ abstract class ValueObject<T> with IFailable {
   String toString() => 'Value($value)';
 }
 
+extension ValueObjectX on ValueObject<num> {
+  bool operator >(ValueObject<num> other) {
+    return getIgnoringFailure() > other.getIgnoringFailure();
+  }
+
+  bool operator <(ValueObject<num> other) {
+    return getIgnoringFailure() < other.getIgnoringFailure();
+  }
+}
+
 extension OptionX<T> on Option<T> {
   Either<ValueFailure<dynamic>, Unit> get failureOrUnit {
     return fold(
-          () => right(unit),
-          (v) {
+      () => right(unit),
+      (v) {
         if (v is IFailable) {
           return v.failureOrUnit;
         } else if (v is Iterable) {
@@ -103,7 +113,7 @@ extension IterableFailureX<T> on Iterable<T> {
         return right(unit);
       }
     }).firstWhere(
-          (element) => element.isLeft(),
+      (element) => element.isLeft(),
       orElse: () => right(unit),
     );
   }
@@ -137,8 +147,8 @@ extension MapFailure<K, V> on Map<K, V> {
   Either<ValueFailure<dynamic>, Unit> get failureOrUnit {
     return entries.map((e) => e.failureOrUnit).firstWhere(
           (element) => element.isLeft(),
-      orElse: () => right(unit),
-    );
+          orElse: () => right(unit),
+        );
   }
 }
 
@@ -154,9 +164,7 @@ class UniqueIdTimestamp extends ValueObject<int> {
 
   factory UniqueIdTimestamp.now() {
     return UniqueIdTimestamp._(
-      right(DateTime
-          .now()
-          .millisecondsSinceEpoch),
+      right(DateTime.now().millisecondsSinceEpoch),
     );
   }
 
@@ -171,8 +179,8 @@ class UniqueIdTimestamp extends ValueObject<int> {
 extension UniqueIdTimestampX on UniqueIdTimestamp {
   DateTime? toDateTime() {
     return value.fold(
-          (_) => null,
-          (v) => DateTime.fromMillisecondsSinceEpoch(v),
+      (_) => null,
+      (v) => DateTime.fromMillisecondsSinceEpoch(v),
     );
   }
 }
@@ -222,9 +230,7 @@ class UniqueIdUUID extends ValueObject<String> {
   const UniqueIdUUID._(this.value);
 }
 
-final UniqueIdUUID emptyUuid = UniqueIdUUID(UuidValue
-    .fromByteList(Uint8List(16))
-    .uuid);
+final UniqueIdUUID emptyUuid = UniqueIdUUID(UuidValue.fromByteList(Uint8List(16)).uuid);
 
 final UniqueIdNumber emptyNumStrId = UniqueIdNumber('0');
 
@@ -394,13 +400,12 @@ class PhoneNumber extends ValueObject<String> {
   const PhoneNumber._(this.value);
 
   String getOrCrashFormatted() {
-    final str = getOrCrash();
-    if (str.startsWith('+')) {
-      return str;
-    } else if (str.startsWith('8')) {
-      return str.replaceRange(0, 1, '+7');
+    final str = String.fromCharCodes(getOrCrash().codeUnits.where((element) => element >= 48 && element <= 59));
+
+    if (str.length == 10) {
+      return '+7$str';
     } else {
-      return '+$str';
+      return str.replaceRange(0, 1, '+7');
     }
   }
 }
