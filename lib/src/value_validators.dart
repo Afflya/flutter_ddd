@@ -123,7 +123,7 @@ Either<ValueFailure<String>, String> validateLogin(String input) {
 }
 
 Either<ValueFailure<String>, String> validateFirmwareVersion(String input) {
-  const regex = r"""^\d+(\.\d+)+$""";
+  const regex = r"""^\d+(\.\d+){2,}$""";
   if (RegExp(regex).hasMatch(input)) {
     return right(input);
   } else {
