@@ -1,8 +1,8 @@
 import 'common_interfaces.dart';
 
-abstract class OperationFailure implements Failure {}
+abstract interface class OperationFailure implements Failure {}
 
-class CommonActionFailure with OperationFailure {
+sealed class CommonActionFailure implements OperationFailure {
   const CommonActionFailure();
 
   const factory CommonActionFailure.missingArgument([String? argName]) =

@@ -9,7 +9,7 @@ import 'failures/value_failures.dart';
 import 'value_validators.dart';
 
 @immutable
-abstract class ValueObject<T> with IFailable {
+abstract class ValueObject<T> implements Failable {
   const ValueObject();
 
   Either<ValueFailure<T>, T> get value;
@@ -68,7 +68,7 @@ extension OptionX<T> on Option<T> {
     return fold(
       () => right(unit),
       (v) {
-        if (v is IFailable) {
+        if (v is Failable) {
           return v.failureOrUnit;
         } else if (v is Iterable) {
           return v.failureOrUnit;
@@ -105,7 +105,7 @@ extension EitherX<L, R> on Either<L, R> {
 extension IterableFailureX<T> on Iterable<T> {
   Either<ValueFailure<dynamic>, Unit> get failureOrUnit {
     return map<Either<ValueFailure<dynamic>, Unit>>((element) {
-      if (element is IFailable) {
+      if (element is Failable) {
         return element.failureOrUnit;
       } else if (element is Iterable) {
         return element.failureOrUnit;
@@ -122,8 +122,8 @@ extension IterableFailureX<T> on Iterable<T> {
 extension MapEntryFailure<K, V> on MapEntry<K, V> {
   Either<ValueFailure<dynamic>, Unit> get failureOrUnit {
     Either<ValueFailure<dynamic>, Unit>? res;
-    if (key is IFailable) {
-      res = (key as IFailable).failureOrUnit;
+    if (key is Failable) {
+      res = (key as Failable).failureOrUnit;
       if (res.isLeft()) {
         return res;
       }
@@ -134,8 +134,8 @@ extension MapEntryFailure<K, V> on MapEntry<K, V> {
       }
     }
 
-    if (value is IFailable) {
-      return (value as IFailable).failureOrUnit;
+    if (value is Failable) {
+      return (value as Failable).failureOrUnit;
     } else if (value is Iterable) {
       return (value as Iterable).failureOrUnit;
     }

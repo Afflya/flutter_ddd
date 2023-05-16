@@ -1,10 +1,10 @@
 import 'common_interfaces.dart';
 
-abstract class ValueFailure<T> implements Failure {
+abstract interface class ValueFailure<T> implements Failure {
   T get failedValue;
 }
 
-abstract class CommonValueFailure<T> with ValueFailure<T> {
+sealed class CommonValueFailure<T> implements ValueFailure<T> {
   const CommonValueFailure();
 
   const factory CommonValueFailure.invalidValue({

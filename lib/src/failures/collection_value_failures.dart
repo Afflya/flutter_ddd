@@ -1,6 +1,6 @@
 import 'value_failures.dart';
 
-abstract class CollectionValueFailure<T> with ValueFailure<T> {
+sealed class CollectionValueFailure<T> implements ValueFailure<T> {
   const CollectionValueFailure();
 
   const factory CollectionValueFailure.collectionTooLong({

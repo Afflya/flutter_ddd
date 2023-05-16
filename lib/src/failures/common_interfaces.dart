@@ -2,13 +2,13 @@ import 'package:dartz/dartz.dart';
 
 import 'value_failures.dart';
 
-abstract class Failure {}
+abstract interface class Failure {}
 
-abstract class IFailable {
+abstract interface class Failable {
   Either<ValueFailure<dynamic>, Unit> get failureOrUnit;
 }
 
-extension IFailableX on IFailable {
+extension FailableX on Failable {
   bool isFailure() => failureOrUnit.isLeft();
 
   bool isValid() => failureOrUnit.isRight();
