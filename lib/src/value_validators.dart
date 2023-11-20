@@ -85,7 +85,7 @@ Either<ValueFailure<String>, String> validateFileType(String input) {
 }
 
 Either<ValueFailure<String>, String> validatePersonName(String input) {
-  const regex = '^[A-Za-zа-яА-Я]{3,40}\$';
+  const regex = '^[A-Za-zа-яА-Я]{2,40}\$';
   if (RegExp(regex).hasMatch(input)) {
     return right(input);
   } else {
