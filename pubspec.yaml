@@ -6,17 +6,17 @@ homepage: https://github.com/Afflya/flutter_ddd
 publish_to: none
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.10.6"
+  sdk: ">=3.2.3 <4.0.0"
+  flutter: ">=3.16.3"
 
 dependencies:
   dartz: '>=0.10.1'
   flutter:
     sdk: flutter
-  uuid: '>=3.0.5'
+  uuid: '>=4.2.2'
 
 dev_dependencies:
-  flutter_lints: '>=2.0.2-0 <3.0.0'
+  flutter_lints: '>=3.0.1-0 <4.0.0'
   flutter_test:
     sdk: flutter
 
