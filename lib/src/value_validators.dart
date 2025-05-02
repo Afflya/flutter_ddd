@@ -114,7 +114,7 @@ Either<ValueFailure<String>, String> validatePhoneNumber(String input) {
 }
 
 Either<ValueFailure<String>, String> validateLogin(String input) {
-  const regex = r"""^[A-z0-9]+$""";
+  const regex = r"""^[a-zA-Z0-9_.-]+$""";
   if (RegExp(regex).hasMatch(input)) {
     return right(input);
   } else {
